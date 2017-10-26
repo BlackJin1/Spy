@@ -40,7 +40,7 @@ class Manager {
             arrayLogPasses = processFile(file);
         }else {
             // Обработать директори
-            arrayLogPasses = processDir(file);
+            processDir(file);
         }
 
 
@@ -120,8 +120,12 @@ class Manager {
         return arrayLogPasses;
     }
 
-    private HashMap<String, ArrayList<LogPass>> processDir(File file){
-        return null;
+    private void processDir(File file){
+        String txt = ".txt";
+        String[] files = file.list(new MyFileNameFilter(txt));
+        for (String path: files) {
+            processData(file +"\\"+path);
+        }
     }
 
     private void determineKeyValue(String key, String value) {
