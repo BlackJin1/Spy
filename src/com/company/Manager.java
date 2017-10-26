@@ -50,6 +50,7 @@ class Manager {
                 System.out.println("Login: "+logPass.getLogin());
                 System.out.println("Password: "+logPass.getPassword());
                 System.out.println("=================================");
+
             }
             System.out.println("*****************************************");
             writResult(entry.getKey(),entry.getValue());
