@@ -38,6 +38,7 @@ class Manager {
         if (file.isFile()){
             // Обработать файл
             arrayLogPasses = processFile(file);
+            file.delete();
         }else {
             // Обработать директори
             processDir(file);
@@ -160,9 +161,6 @@ class Manager {
 
         }
     }
-
-
-
 
 
 
