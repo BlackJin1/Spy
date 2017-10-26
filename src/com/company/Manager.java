@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Класс для обработки данных
@@ -12,6 +11,7 @@ import java.util.Set;
  */
 class Manager {
     private String filePath;// Путь к ресурсам
+    private String dirResult;// Путь к результатам работы
     private HashMap<String, ArrayList<LogPass>> arrayLogPasses;
     private String url;
     private String appName;
@@ -19,16 +19,13 @@ class Manager {
     private String pass;
 
 
-    Manager() {
+    Manager(String dirResult) {
         arrayLogPasses = new HashMap<>();
         url ="";
         appName="";
         login="";
         pass="";
-    }
-    Manager(String filePath) {
-        this.filePath = filePath;
-
+        this.dirResult = dirResult;
     }
 
     /**
@@ -37,6 +34,7 @@ class Manager {
      */
     void processData(String filePath){
         File file = new File(filePath);
+
         if (file.isFile()){
             // Обработать файл
             arrayLogPasses = processFile(file);
@@ -54,7 +52,42 @@ class Manager {
                 System.out.println("=================================");
             }
             System.out.println("*****************************************");
+            writResult(entry.getKey(),entry.getValue());
         }
+    }
+
+    /**
+     * Запишим рещультат в файл
+     */
+    private void writResult(String urlPath, ArrayList<LogPass> logPasses){
+        String fileWrite;
+        String newSrt   = urlPath;
+        newSrt          = newSrt.replace("http://", "");
+        newSrt          = newSrt.replace("https://","");
+        newSrt          = newSrt.replace("www","");
+        newSrt          = newSrt.replace(".", "");
+        fileWrite = dirResult + "\\" + newSrt + ".txt";
+        File file = new File(fileWrite);
+        boolean newFile = false;
+        if (file.exists()) newFile = true;
+        try (FileWriter writer = new FileWriter(file,newFile)){
+            if (!newFile){
+                writer.append(urlPath+
+                "\r\n========================================\r\n");
+            }
+            for (LogPass pass:logPasses) {
+                String str = "\r\nURL:"    + pass.getUrl() +
+                        "\r\nLogin: "       + pass.getLogin() +
+                        "\r\nPassword: "    + pass.getPassword() +
+                        "\r\n";//****************************************\r\n";
+                writer.append(str);
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -122,9 +155,6 @@ class Manager {
 
         }
     }
-
-
-
 
 
 
