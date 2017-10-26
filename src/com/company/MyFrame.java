@@ -34,12 +34,16 @@ public class MyFrame extends JFrame {
         jButton3.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(12);
+                String fileParh = "D:\\Роман\\Ресурсы";
+                String dirResult = "D:\\Роман\\Результаты\\";
+                Manager manager = new Manager(dirResult);
+                manager.processData(fileParh);
             }
         });
 
         jPanel.add(jButton1);
         jPanel.add(jButton2);
+        jPanel.add(jButton3);
         this.getContentPane().add(jPanel);
     }
 }

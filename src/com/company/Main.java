@@ -11,9 +11,6 @@ public class Main {
         frame.setSize(new Dimension(500,200));
         frame.setVisible(true);
 
-        String fileParh = "D:\\Роман\\Ресурсы";
-        String dirResult = "D:\\Роман\\Результаты\\";
-        //Manager manager = new Manager(dirResult);
-      //  manager.processData(fileParh);
+
     }
 }
