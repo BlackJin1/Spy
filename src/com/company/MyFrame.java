@@ -139,7 +139,6 @@ public class MyFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String filePath     = resourcesTextField.getText();
                 String dirResult    = resultTextField.getText();
-                textFieldRight.setText("123");
                 if (dirResult.equals("")||filePath.equals("")){
                     JOptionPane.showMessageDialog(null,"Выбери файлы и директории блиать!");
                 }else {
