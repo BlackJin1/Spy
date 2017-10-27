@@ -32,7 +32,7 @@ class Manager {
      * обработать данные по указанному пути
      * @param filePath - Путь с ресурсами
      */
-    void processData(String filePath){
+    public String processData(String filePath){
         File file = new File(filePath);
 
         if (file.isFile()){
@@ -44,18 +44,21 @@ class Manager {
             processDir(file);
         }
 
+        StringBuilder s = new StringBuilder();
 
         for (Map.Entry<String, ArrayList<LogPass>> entry: arrayLogPasses.entrySet()){
-            System.out.println(entry.getKey()+": ");
+            s.append("\r\n"+entry.getKey());
             for (LogPass logPass:entry.getValue()) {
-                System.out.println("Login: "+logPass.getLogin());
-                System.out.println("Password: "+logPass.getPassword());
-                System.out.println("=================================");
+                s.append("\r\nLogin: "+logPass.getLogin());
+                s.append("\r\nPassword: "+logPass.getPassword());
+                s.append("\r\n=================================");
 
             }
-            System.out.println("*****************************************");
+            //s.append("*****************************************");
             writResult(entry.getKey(),entry.getValue());
         }
+
+        return s.toString();
     }
 
     /**
