@@ -1,6 +1,3 @@
-package com.company;
-
-
 import javafx.scene.control.*;
 
 import javax.swing.*;
@@ -144,7 +141,7 @@ public class MyFrame extends JFrame {
                 }else {
                     Manager manager = new Manager(dirResult);
                     String result = manager.processData(filePath);
-                    textFieldRight.setText(result);
+                    textFieldRight.setText("Обработано "+manager.getCount()+" файлов");
                 }
 
             }
