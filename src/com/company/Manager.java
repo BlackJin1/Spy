@@ -1,5 +1,3 @@
-package com.company;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +15,7 @@ class Manager {
     private String appName;
     private String login;
     private String pass;
+    private int count = 0;
 
 
     Manager(String dirResult) {
@@ -28,23 +27,30 @@ class Manager {
         this.dirResult = dirResult;
     }
 
+    public int getCount() {
+        return count;
+    }
+
     /**
      * обработать данные по указанному пути
      * @param filePath - Путь с ресурсами
      */
     public String processData(String filePath){
         File file = new File(filePath);
-
         if (file.isFile()){
             // Обработать файл
+            arrayLogPasses = new HashMap<>();
             arrayLogPasses = processFile(file);
+            System.out.println(file.getAbsoluteFile());
+            //arrayLogPasses = new HashMap<>();
             file.delete();
+            count++;
         }else {
             // Обработать директори
             processDir(file);
         }
 
-        StringBuilder s = new StringBuilder();
+       StringBuilder s = new StringBuilder();
 
         for (Map.Entry<String, ArrayList<LogPass>> entry: arrayLogPasses.entrySet()){
             s.append("\r\n"+entry.getKey());
@@ -68,9 +74,14 @@ class Manager {
         String fileWrite;
         String newSrt   = urlPath;
         newSrt          = newSrt.replace("http://", "");
+        newSrt          = newSrt.replace("pop3://", "");
         newSrt          = newSrt.replace("https://","");
+        newSrt          = newSrt.replace("/", "_");
+        newSrt          = newSrt.replace(":", " ");
+        newSrt          = newSrt.replace("?", "");
         newSrt          = newSrt.replace("www","");
-        newSrt          = newSrt.replace(".", "");
+        newSrt          = newSrt.replace(".", " ");
+        if (newSrt.equals("")) newSrt = "нет_хоста";
         fileWrite = dirResult + "\\" + newSrt + ".txt";
         File file = new File(fileWrite);
         boolean newFile = false;
@@ -86,7 +97,6 @@ class Manager {
                         "\r\nPassword: "    + pass.getPassword() +
                         "\r\n";//****************************************\r\n";
                 writer.append(str);
-
             }
 
         } catch (IOException e) {
@@ -136,7 +146,7 @@ class Manager {
     private void determineKeyValue(String key, String value) {
         if (key.equals("Application Name") && !value.isEmpty()){
             this.setAppName(value);
-        }else if (key.equals("URL")&& !value.isEmpty()){
+        }else if (key.equals("URL")||key.equals("Website")&& !value.isEmpty()){
             this.setUrl(value);
         }else if (key.equals("Username")&& !value.isEmpty()){
             this.setLogin(value);
